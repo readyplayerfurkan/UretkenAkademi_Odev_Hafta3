@@ -13,10 +13,10 @@ public class SolarSystem : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Gravity();
+        GravitationalForce();
     }
 
-    void Gravity()
+    void GravitationalForce()
     {
         foreach (GameObject a in _celestials)
         {
