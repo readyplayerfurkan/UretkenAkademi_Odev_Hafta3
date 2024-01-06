@@ -20,6 +20,9 @@ public class SolarSystem : MonoBehaviour
     {
         foreach (GameObject a in _celestials)
         {
+            if (a.name == "Sun")
+                continue;
+            
             foreach (GameObject b in _celestials)
             {
                 if (!a.Equals(b))
