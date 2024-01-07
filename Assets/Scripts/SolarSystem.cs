@@ -18,20 +18,20 @@ public class SolarSystem : MonoBehaviour
 
     void GravitationalForce()
     {
-        foreach (GameObject a in _celestials)
+        foreach (GameObject affectedCelestial in _celestials)
         {
-            if (a.name == "Sun")
+            if (affectedCelestial.name == "Sun")
                 continue;
             
-            foreach (GameObject b in _celestials)
+            foreach (GameObject effecterCelestial in _celestials)
             {
-                if (!a.Equals(b))
+                if (!affectedCelestial.Equals(effecterCelestial))
                 {
-                    float m1 = a.GetComponent<Rigidbody>().mass;
-                    float m2 = b.GetComponent<Rigidbody>().mass;
-                    float r = Vector3.Distance(a.transform.position, b.transform.position);
+                    float affectedCelestialMass = affectedCelestial.GetComponent<Rigidbody>().mass;
+                    float effecterCelestialMass = effecterCelestial.GetComponent<Rigidbody>().mass;
+                    float distanceBetweenCelestials = Vector3.Distance(affectedCelestial.transform.position, effecterCelestial.transform.position);
                     
-                    a.GetComponent<Rigidbody>().AddForce((b.transform.position - a.transform.position).normalized * (G * (m1 * m2) / (r * r)));
+                    affectedCelestial.GetComponent<Rigidbody>().AddForce((effecterCelestial.transform.position - affectedCelestial.transform.position).normalized * (G * (affectedCelestialMass * effecterCelestialMass) / (distanceBetweenCelestials * distanceBetweenCelestials)));
                 }
             }
         }
@@ -39,20 +39,20 @@ public class SolarSystem : MonoBehaviour
 
     void InitialVelocity()
     {
-        foreach (GameObject a in _celestials)
+        foreach (GameObject affectedCelestial in _celestials)
         {
-            if (a.name == "Sun")
+            if (affectedCelestial.name == "Sun")
                 continue;
             
-            foreach (GameObject b in _celestials)
+            foreach (GameObject effecterCelestial in _celestials)
             {
-                if (!a.Equals(b))
+                if (!affectedCelestial.Equals(effecterCelestial))
                 {
-                    float m2 = b.GetComponent<Rigidbody>().mass;
-                    float r = Vector3.Distance(a.transform.position, b.transform.position);
-                    a.transform.LookAt(b.transform);
+                    float effecterCelestialMass = effecterCelestial.GetComponent<Rigidbody>().mass;
+                    float distanceBetweenCelestials = Vector3.Distance(affectedCelestial.transform.position, effecterCelestial.transform.position);
+                    affectedCelestial.transform.LookAt(effecterCelestial.transform);
 
-                    a.GetComponent<Rigidbody>().velocity += a.transform.right * Mathf.Sqrt((G * m2) / r);
+                    affectedCelestial.GetComponent<Rigidbody>().velocity += affectedCelestial.transform.right * Mathf.Sqrt((G * effecterCelestialMass) / distanceBetweenCelestials);
                 }
             }
         }
